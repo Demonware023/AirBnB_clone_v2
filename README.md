@@ -1,3 +1,8 @@
+<center> <h1>HBNB - SQL</h1></center>
+
+In this phase, we advance the Airbnb clone project by integrating SQL databases to augment its functionality. Departing from the previous approach of saving data in JSON files, we now transition to using databases. This shift allows us to leverage the robust capabilities of SQL for efficient data storage, retrieval, and management. By adopting this approach, we aim to enhance the project's scalability, performance, and overall user experience.
+
+
 <center> <h1>HBNB - The Console</h1> </center>
 
 This repository contains the initial stage of a student project to build a clone of the AirBnB website. This stage implements a backend interface, or console, to manage program data. Console commands allow the user to create, update, and destroy objects, as well as manage file storage. Using a system of JSON serialization/deserialization, storage is persistent between sessions.
