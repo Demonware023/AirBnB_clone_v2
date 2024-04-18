@@ -84,20 +84,26 @@ class HBNBCommand(cmd.Cmd):
         return True
 
     def do_create(self, arg):
-    """Usage: create <class> <param 1> <param 2> <param 3>...
+    """
+    Usage: create <Class name> <param 1> <param 2> <param 3>...
     Create a new class instance with given parameters and print its id.
     """
-    argl = parse(arg)
-    if len(argl) == 0:
+    arg_list = shlex.split(arg)
+    if len(arg_list) == 0:
         print("** class name missing **")
-    elif argl[0] not in HBNBCommand.__classes:
+    elif arg_list[0] not in HBNBCommand.__classes:
         print("** class doesn't exist **")
     else:
-        kwargs = {}
-        for param in argl[1:]:
-            key, value = param.split('=')
-            if value[0] == '"' and value[-1] == '"':
-                value = value[1:-1].replace('_', ' ').replace('\\"', '"')
+        class_name = arg_list[0]
+        class_attributes = {}
+        for pair in arg_list[1:]:
+            if '=' not in pair:
+                continue
+            key, value = pair.split('=')
+            key = key.replace('_', ' ')
+            if value.startswith('"') and value.endswith('"'):
+                value = value[1:-1]
+                value = value.replace('\\', '')
             elif '.' in value:
                 try:
                     value = float(value)
@@ -108,9 +114,11 @@ class HBNBCommand(cmd.Cmd):
                     value = int(value)
                 except ValueError:
                     continue
-            kwargs[key] = value
-        print(eval(argl[0])(**kwargs).id)
-        storage.save()
+            class_attributes[key] = value
+        new_instance = eval(class_name)(**class_attributes)
+        new_instance.save()
+        print(new_instance.id)
+     
 
     def do_show(self, arg):
         """Usage: show <class> <id> or <class>.show(<id>)
